@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Password Generator</title>
+<title>Generator UserID & Password</title>
 
 <style>
 *{
@@ -19,247 +19,194 @@ body{
     justify-content:center;
     align-items:center;
     background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
-    overflow:hidden;
+    padding:20px;
 }
 
-body::before{
-    content:'';
-    position:absolute;
-    width:400px;
-    height:400px;
-    background:#00d4ff;
-    border-radius:50%;
-    filter:blur(120px);
-    top:-100px;
-    left:-100px;
-    opacity:.4;
-}
-
-body::after{
-    content:'';
-    position:absolute;
-    width:400px;
-    height:400px;
-    background:#ff00c8;
-    border-radius:50%;
-    filter:blur(120px);
-    bottom:-100px;
-    right:-100px;
-    opacity:.4;
-}
-
-.container{
-    position:relative;
-    width:420px;
+.card{
+    width:100%;
+    max-width:500px;
     padding:30px;
     border-radius:25px;
-    background:rgba(255,255,255,0.08);
+    background:rgba(255,255,255,.08);
     backdrop-filter:blur(15px);
     border:1px solid rgba(255,255,255,.15);
     box-shadow:0 15px 35px rgba(0,0,0,.3);
 }
 
-.container h2{
+h2{
+    color:#fff;
     text-align:center;
-    color:white;
     margin-bottom:25px;
+}
+
+label{
+    display:block;
+    color:#fff;
+    margin-bottom:8px;
+    font-size:14px;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:rgba(255,255,255,.12);
+    color:#fff;
+    outline:none;
+    margin-bottom:15px;
+}
+
+input::placeholder{
+    color:#bbb;
 }
 
 .password-box{
     display:flex;
     gap:10px;
-    margin-bottom:20px;
+    margin-bottom:15px;
 }
 
 .password-box input{
-    flex:1;
+    margin-bottom:0;
+}
+
+.btn{
+    width:100%;
     padding:14px;
     border:none;
     border-radius:12px;
+    cursor:pointer;
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+    margin-top:10px;
+}
+
+.generate{
+    background:linear-gradient(135deg,#06b6d4,#3b82f6);
+}
+
+.copy{
+    background:linear-gradient(135deg,#22c55e,#16a34a);
+}
+
+textarea{
+    width:100%;
+    min-height:140px;
+    margin-top:15px;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    resize:none;
     background:rgba(255,255,255,.12);
-    color:white;
-    font-size:16px;
+    color:#fff;
     outline:none;
 }
 
-.copy-btn{
-    width:55px;
-    border:none;
-    border-radius:12px;
-    cursor:pointer;
-    background:#00d4ff;
-    color:#000;
-    font-size:20px;
-    font-weight:bold;
-    transition:.3s;
-}
-
-.copy-btn:hover{
-    transform:scale(1.05);
-}
-
-.options{
-    margin:20px 0;
-}
-
-.option{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    color:white;
-    margin-bottom:12px;
-}
-
-.option input[type="checkbox"]{
-    width:18px;
-    height:18px;
-}
-
-.length-box{
-    margin-bottom:20px;
-}
-
-.length-box label{
-    color:white;
-    display:block;
-    margin-bottom:10px;
-}
-
-.length-box input{
-    width:100%;
-}
-
-.generate-btn{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:12px;
-    background:linear-gradient(135deg,#00d4ff,#3b82f6);
-    color:white;
-    font-size:17px;
-    font-weight:600;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.generate-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 10px 20px rgba(0,212,255,.3);
-}
-
 .info{
-    margin-top:15px;
     text-align:center;
-    color:#d1d5db;
+    color:#cbd5e1;
     font-size:13px;
+    margin-top:12px;
 }
 </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>🔐 Password Generator</h2>
+<div class="card">
+
+    <h2>🔐 Generator Login</h2>
+
+    <label>UserID</label>
+    <input
+        type="text"
+        id="userid"
+        placeholder="Masukkan UserID">
+
+    <label>Password</label>
 
     <div class="password-box">
-        <input type="text" id="password" readonly>
-        <button class="copy-btn" onclick="copyPassword()">📋</button>
+        <input
+            type="text"
+            id="password"
+            readonly
+            placeholder="Generate Password">
     </div>
 
-    <div class="length-box">
-        <label>Panjang Password: <span id="lengthValue">16</span></label>
-        <input type="range" min="6" max="50" value="16" id="length">
-    </div>
-
-    <div class="options">
-        <div class="option">
-            <span>Huruf Besar (A-Z)</span>
-            <input type="checkbox" id="uppercase" checked>
-        </div>
-
-        <div class="option">
-            <span>Huruf Kecil (a-z)</span>
-            <input type="checkbox" id="lowercase" checked>
-        </div>
-
-        <div class="option">
-            <span>Angka (0-9)</span>
-            <input type="checkbox" id="numbers" checked>
-        </div>
-
-        <div class="option">
-            <span>Simbol (!@#$%)</span>
-            <input type="checkbox" id="symbols" checked>
-        </div>
-    </div>
-
-    <button class="generate-btn" onclick="generatePassword()">
+    <button class="btn generate" onclick="generatePassword()">
         Generate Password
     </button>
 
+    <textarea
+        id="preview"
+        readonly
+        placeholder="Preview pesan akan muncul di sini..."></textarea>
+
+    <button class="btn copy" onclick="copyMessage()">
+        Salin Pesan
+    </button>
+
     <div class="info">
-        Password aman dan dibuat secara acak.
+        Isi UserID lalu Generate Password
     </div>
+
 </div>
 
 <script>
 
-const lengthSlider = document.getElementById("length");
-const lengthValue = document.getElementById("lengthValue");
-
-lengthSlider.addEventListener("input",()=>{
-    lengthValue.textContent = lengthSlider.value;
-});
-
 function generatePassword(){
 
-    const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const lowercase = "abcdefghijklmnopqrstuvwxyz";
-    const numbers = "0123456789";
-    const symbols = "!@#$%^&*()_+-=[]{}<>?";
-
-    let chars = "";
-
-    if(document.getElementById("uppercase").checked)
-        chars += uppercase;
-
-    if(document.getElementById("lowercase").checked)
-        chars += lowercase;
-
-    if(document.getElementById("numbers").checked)
-        chars += numbers;
-
-    if(document.getElementById("symbols").checked)
-        chars += symbols;
-
-    if(chars === ""){
-        alert("Pilih minimal satu opsi karakter!");
-        return;
-    }
+    const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
 
     let password = "";
-    const length = parseInt(lengthSlider.value);
 
-    for(let i=0;i<length;i++){
+    for(let i=0;i<8;i++){
         password += chars.charAt(
             Math.floor(Math.random()*chars.length)
         );
     }
 
     document.getElementById("password").value = password;
+
+    updatePreview();
 }
 
-function copyPassword(){
+document.getElementById("userid")
+.addEventListener("input", updatePreview);
 
-    const password = document.getElementById("password");
+function updatePreview(){
 
-    if(password.value === ""){
-        alert("Generate password terlebih dahulu!");
+    const userid =
+    document.getElementById("userid").value;
+
+    const password =
+    document.getElementById("password").value;
+
+    document.getElementById("preview").value =
+`userID : ${userid}
+password : ${password}
+
+silahkan di coba login dan di ganti passwordnya ya bosku`;
+}
+
+function copyMessage(){
+
+    const userid =
+    document.getElementById("userid").value;
+
+    if(userid.trim() === ""){
+        alert("Masukkan UserID terlebih dahulu!");
         return;
     }
 
-    navigator.clipboard.writeText(password.value);
+    const text =
+    document.getElementById("preview").value;
 
-    alert("Password berhasil disalin!");
+    navigator.clipboard.writeText(text);
+
+    alert("Pesan berhasil disalin!");
 }
 
 generatePassword();
